@@ -26,7 +26,31 @@ terraform {
 }
 
 module "vpc" {
-  source   = "../../modules/network/vpc"
-  name_prefix     = local.name_prefix
-  vpc_cidr = local.vpc_cidr
+  source      = "../../modules/network/vpc"
+  name_prefix = local.name_prefix
+  vpc_cidr    = local.vpc_cidr
+}
+
+module "public_subnet" {
+  source                   = "../../modules/network/public_subnet"
+  name_prefix              = local.name_prefix
+  alb_subnet_cidr_block_1a = local.alb_subnet_cidr_block_1a
+  alb_subnet_cidr_block_1b = local.alb_subnet_cidr_block_1b
+  subnet_az_1a             = local.az_1a
+  subnet_az_1b             = local.az_1b
+  vpc_id                   = module.vpc.vpc_id
+}
+
+module "private_subnet" {
+  source                         = "../../modules/network/private_subnet"
+  name_prefix                    = local.name_prefix
+  container_subnet_cidr_block_1a = local.container_subnet_cidr_block_1a
+  container_subnet_cidr_block_1b = local.container_subnet_cidr_block_1b
+  vpce_subnet_cidr_block_1a      = local.vpce_subnet_cidr_block_1a
+  vpce_subnet_cidr_block_1b      = local.vpce_subnet_cidr_block_1b
+  rds_subnet_cidr_block_1a       = local.rds_subnet_cidr_block_1a
+  rds_subnet_cidr_block_1b       = local.rds_subnet_cidr_block_1b
+  subnet_az_1a                   = local.az_1a
+  subnet_az_1b                   = local.az_1b
+  vpc_id                         = module.vpc.vpc_id
 }
