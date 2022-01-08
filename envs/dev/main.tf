@@ -54,3 +54,9 @@ module "private_subnet" {
   subnet_az_1b                   = local.az_1b
   vpc_id                         = module.vpc.vpc_id
 }
+
+module "ecr" {
+  source        = "../../modules/ecr"
+  name_prefix   = local.name_prefix
+  holding_count = 1
+}
