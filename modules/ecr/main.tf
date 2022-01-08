@@ -1,4 +1,4 @@
-resource "aws_ecr_repository" "this" {
+resource "aws_ecr_repository" "backend" {
   name                 = "${var.name_prefix}-ecr"
   image_tag_mutability = "MUTABLE"
   image_scanning_configuration {
@@ -6,7 +6,7 @@ resource "aws_ecr_repository" "this" {
   }
 }
 
-resource "aws_ecr_lifecycle_policy" "this" {
+resource "aws_ecr_lifecycle_policy" "backend" {
   policy = jsonencode(
     {
       "rules" : [
@@ -26,5 +26,5 @@ resource "aws_ecr_lifecycle_policy" "this" {
     }
   )
 
-  repository = aws_ecr_repository.this.name
+  repository = aws_ecr_repository.backend.name
 }

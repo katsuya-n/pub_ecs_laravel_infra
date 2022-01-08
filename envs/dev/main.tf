@@ -1,4 +1,5 @@
 variable "allow_cidr_block" {}
+data "aws_caller_identity" "current" {}
 
 provider "aws" {
   region = "us-east-1"
@@ -87,4 +88,11 @@ module "ecr" {
   source        = "../../modules/ecr"
   name_prefix   = local.name_prefix
   holding_count = 1
+}
+
+module "ecs" {
+  source                     = "../../modules/ecs"
+  name_prefix                = local.name_prefix
+  account_id                 = data.aws_caller_identity.current.account_id
+  backend_ecr_repository_url = module.ecr.backend_ecr_repository_url
 }
