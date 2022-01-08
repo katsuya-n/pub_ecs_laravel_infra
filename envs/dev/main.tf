@@ -64,6 +64,15 @@ module "sg" {
   allow_cidr_block = var.allow_cidr_block
 }
 
+module "vpc_endpoints" {
+  source            = "../../modules/network/vpc_endpoint"
+  name_prefix       = local.name_prefix
+  vpc_id            = module.vpc.vpc_id
+  sg_id             = module.sg.sg_vpce_id
+  subnet_vpce_1a_id = module.private_subnet.subnet_vpce_1a_id
+  subnet_vpce_1b_id = module.private_subnet.subnet_vpce_1b_id
+}
+
 module "ecr" {
   source        = "../../modules/ecr"
   name_prefix   = local.name_prefix
