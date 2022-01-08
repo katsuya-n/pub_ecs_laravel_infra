@@ -6,7 +6,7 @@ resource "aws_subnet" "public_alb_1a" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "${var.name_prefix}-public-alb-1b"
+    Name = "${var.name_prefix}-public-alb-1a"
   }
 }
 
