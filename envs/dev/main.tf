@@ -65,12 +65,21 @@ module "sg" {
   allow_cidr_block = var.allow_cidr_block
 }
 
+module "igw" {
+  source      = "../../modules/network/igw"
+  name_prefix = local.name_prefix
+  vpc_id      = module.vpc.vpc_id
+}
+
 module "route_table" {
-  source       = "../../modules/network/route_table"
-  name_prefix  = local.name_prefix
-  vpc_id       = module.vpc.vpc_id
-  subnet_1a_id = module.private_subnet.subnet_container_1a_id
-  subnet_1b_id = module.private_subnet.subnet_container_1b_id
+  source                         = "../../modules/network/route_table"
+  name_prefix                    = local.name_prefix
+  vpc_id                         = module.vpc.vpc_id
+  private_container_subnet_1a_id = module.private_subnet.subnet_container_1a_id
+  private_container_subnet_1b_id = module.private_subnet.subnet_container_1b_id
+  public_alb_subnet_1a_id        = module.public_subnet.subnet_alb_1a_id
+  public_alb_subnet_1b_id        = module.public_subnet.subnet_alb_1b_id
+  igw_id                         = module.igw.igw_id
 }
 
 module "vpc_endpoints" {
