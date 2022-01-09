@@ -28,6 +28,10 @@ terraform {
   }
 }
 
+module "iam_role" {
+  source        = "../../modules/iam/iam_role"
+}
+
 module "vpc" {
   source      = "../../modules/network/vpc"
   name_prefix = local.name_prefix
