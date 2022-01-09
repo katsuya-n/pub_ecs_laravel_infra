@@ -30,3 +30,22 @@ resource "aws_lb_listener" "blue" {
     target_group_arn = aws_lb_target_group.blue.arn
   }
 }
+
+resource "aws_lb_target_group" "green" {
+  name        = "${var.name_prefix}-green-tg"
+  port        = 10080
+  protocol    = "HTTP"
+  target_type = "ip"
+  vpc_id      = var.vpc_id
+}
+
+resource "aws_lb_listener" "green" {
+  load_balancer_arn = aws_lb.alb.arn
+  port              = "10080"
+  protocol          = "HTTP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.green.arn
+  }
+}
