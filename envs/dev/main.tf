@@ -6,7 +6,7 @@ provider "aws" {
 
   default_tags {
     tags = {
-      Env    = "dev"
+      Env    = local.env
       System = local.name_prefix
       Owner  = "lightkun"
     }
@@ -89,6 +89,15 @@ module "vpc_endpoints" {
   subnet_1b_id              = module.private_subnet.subnet_container_1b_id
   route_table_private_1a_id = module.route_table.route_table_private_1a_id
   route_table_private_1b_id = module.route_table.route_table_private_1b_id
+}
+
+module "alb" {
+  source       = "../../modules/alb"
+  name_prefix  = local.env
+  sg_alb_id    = module.sg.sg_alb_id
+  subnet_1a_id = module.public_subnet.subnet_alb_1a_id
+  subnet_1b_id = module.public_subnet.subnet_alb_1b_id
+  vpc_id       = module.vpc.vpc_id
 }
 
 module "ecr" {
