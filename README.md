@@ -1,5 +1,9 @@
 # pub_ecs_laravel_infra
 
+## 構成図
+
+![](./docs/インフラ構成図.png)
+
 ## 起動
 
 ```
