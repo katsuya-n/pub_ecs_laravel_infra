@@ -29,7 +29,7 @@ terraform {
 }
 
 module "iam_role" {
-  source        = "../../modules/iam/iam_role"
+  source = "../../modules/iam/iam_role"
 }
 
 module "vpc" {
@@ -111,8 +111,14 @@ module "ecr" {
 }
 
 module "ecs" {
-  source                     = "../../modules/ecs"
-  name_prefix                = local.name_prefix
-  account_id                 = data.aws_caller_identity.current.account_id
-  backend_ecr_repository_url = module.ecr.backend_ecr_repository_url
+  source                       = "../../modules/ecs"
+  name_prefix                  = local.name_prefix
+  account_id                   = data.aws_caller_identity.current.account_id
+  backend_ecr_repository_url   = module.ecr.backend_ecr_repository_url
+  ecs_code_deploy_iam_role_arn = module.iam_role.ecs_code_deploy_iam_role_arn
+  alb_tg_blue_arn              = module.alb.alb_tg_blue_arn
+  alb_tg_green_arn             = module.alb.alb_tg_green_arn
+  sg_container_id              = module.sg.sg_container_id
+  subnet_container_1a_id       = module.private_subnet.subnet_container_1a_id
+  subnet_container_1b_id       = module.private_subnet.subnet_container_1b_id
 }
