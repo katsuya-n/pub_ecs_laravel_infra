@@ -39,10 +39,11 @@ resource "aws_ecs_task_definition" "backend" {
 }
 
 resource "aws_ecs_service" "backend" {
-  name                = "${var.name_prefix}-service"
-  cluster             = aws_ecs_cluster.backend.id
-  task_definition     = aws_ecs_task_definition.backend.arn
-  desired_count       = 2
+  name            = "${var.name_prefix}-service"
+  cluster         = aws_ecs_cluster.backend.id
+  task_definition = aws_ecs_task_definition.backend.arn
+  desired_count   = 2
+  //  desired_count       = 0
   launch_type         = "FARGATE"
   scheduling_strategy = "REPLICA"
 
