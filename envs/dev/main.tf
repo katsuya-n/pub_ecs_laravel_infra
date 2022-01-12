@@ -122,3 +122,16 @@ module "ecs" {
   subnet_container_1a_id       = module.private_subnet.subnet_container_1a_id
   subnet_container_1b_id       = module.private_subnet.subnet_container_1b_id
 }
+
+module "codedeploy" {
+  source                               = "../../modules/codedeploy"
+  name_prefix                          = local.name_prefix
+  backend_ecs_code_deploy_iam_role_arn = module.iam_role.ecs_code_deploy_iam_role_arn
+  backend_ecs_cluster_name             = module.ecs.ecs_cluster_backend_name
+  backend_ecs_service                  = module.ecs.ecs_service_backend_name
+  backend_alb_tg_blue_name             = module.alb.alb_tg_blue_name
+  backend_alb_tg_green_name            = module.alb.alb_tg_green_name
+  backend_alb_listener_blue_arn        = module.alb.alb_listener_blue_arn
+  backend_alb_listener_green_arn       = module.alb.alb_listener_green_arn
+
+}
