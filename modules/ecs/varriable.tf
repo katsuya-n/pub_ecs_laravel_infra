@@ -7,3 +7,4 @@ variable "alb_tg_green_arn" {}
 variable "sg_container_id" {}
 variable "subnet_container_1a_id" {}
 variable "subnet_container_1b_id" {}
+variable "backend_desired_count" {}

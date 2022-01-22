@@ -84,16 +84,16 @@ module "route_table" {
   igw_id                         = module.igw.igw_id
 }
 
-module "vpc_endpoints" {
-  source                    = "../../modules/network/vpc_endpoint"
-  name_prefix               = local.name_prefix
-  vpc_id                    = module.vpc.vpc_id
-  sg_id                     = module.sg.sg_vpce_id
-  subnet_1a_id              = module.private_subnet.subnet_container_1a_id
-  subnet_1b_id              = module.private_subnet.subnet_container_1b_id
-  route_table_private_1a_id = module.route_table.route_table_private_1a_id
-  route_table_private_1b_id = module.route_table.route_table_private_1b_id
-}
+//module "vpc_endpoints" {
+//  source                    = "../../modules/network/vpc_endpoint"
+//  name_prefix               = local.name_prefix
+//  vpc_id                    = module.vpc.vpc_id
+//  sg_id                     = module.sg.sg_vpce_id
+//  subnet_1a_id              = module.private_subnet.subnet_container_1a_id
+//  subnet_1b_id              = module.private_subnet.subnet_container_1b_id
+//  route_table_private_1a_id = module.route_table.route_table_private_1a_id
+//  route_table_private_1b_id = module.route_table.route_table_private_1b_id
+//}
 
 module "alb" {
   source       = "../../modules/alb"
@@ -121,6 +121,8 @@ module "ecs" {
   sg_container_id              = module.sg.sg_container_id
   subnet_container_1a_id       = module.private_subnet.subnet_container_1a_id
   subnet_container_1b_id       = module.private_subnet.subnet_container_1b_id
+  backend_desired_count        = 0
+  //  desired_count = 2
 }
 
 module "codedeploy" {
@@ -133,5 +135,12 @@ module "codedeploy" {
   backend_alb_tg_green_name            = module.alb.alb_tg_green_name
   backend_alb_listener_blue_arn        = module.alb.alb_listener_blue_arn
   backend_alb_listener_green_arn       = module.alb.alb_listener_green_arn
+}
 
+module "rds" {
+  source          = "../../modules/rds"
+  name_prefix     = local.name_prefix
+  subnet_db_1a_id = module.private_subnet.subnet_db_1a_id
+  subnet_db_1b_id = module.private_subnet.subnet_db_1b_id
+  env             = local.env
 }
