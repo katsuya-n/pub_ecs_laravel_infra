@@ -31,3 +31,10 @@ FROM httpd:2.4
 ```
 
 ALBのDNS名にブラウザからアクセスすると`It works!`が表示されることを確認
+
+## RDSのパスワード
+system managerに手動で作成
+
+```
+$ aws ssm get-parameters --name "dev-db" --region=us-east-1 | jq  -r ".Parameters[].Value"
+```
