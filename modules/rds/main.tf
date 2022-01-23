@@ -21,6 +21,7 @@ resource "aws_rds_cluster" "db_cluster" {
   master_password         = var.db_master_password
   backup_retention_period = 1
   preferred_backup_window = "07:00-09:00"
+  vpc_security_group_ids = [var.db_vpc_security_group_id]
 }
 
 resource "aws_rds_cluster_instance" "instance1" {
@@ -31,3 +32,13 @@ resource "aws_rds_cluster_instance" "instance1" {
   engine             = aws_rds_cluster.db_cluster.engine
   engine_version     = aws_rds_cluster.db_cluster.engine_version
 }
+
+// TODO: WIP
+//resource "aws_rds_cluster_instance" "instance2" {
+//  apply_immediately  = true
+//  cluster_identifier = aws_rds_cluster.db_cluster.id
+//  identifier         = "${var.env}-db2"
+//  instance_class     = "db.t3.small"
+//  engine             = aws_rds_cluster.db_cluster.engine
+//  engine_version     = aws_rds_cluster.db_cluster.engine_version
+//}

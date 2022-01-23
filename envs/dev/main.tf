@@ -153,4 +153,5 @@ module "rds" {
   database_name         = var.database_name
   db_master_username    = var.db_master_username
   db_master_password    = var.db_master_password
+  db_vpc_security_group_id = module.sg.sg_rds_id
 }
