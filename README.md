@@ -6,7 +6,7 @@
 
 ## 起動
 
-```
+```bash
 $ cd envs/dev/ 
 $ touch terraform.tfvars
 ```
@@ -19,9 +19,16 @@ allow_cidr_block = "XXX.XXX.XXX.XXX/32"
 ```
 
 
-```
+```bash
 $ terraform init
-$ terraform apply
+
+# fishだとうまく行かないのでbashにして実行(あとで.shにする)
+$ terraform apply \
+-var=database_name=`aws ssm get-parameters --name "/dev/db/database_name" --region=us-east-1 --with-decryption | jq  -r ".Parameters[].Value"` \
+-var=db_master_username=`aws ssm get-parameters --name "/dev/db/username" --region=us-east-1 --with-decryption | jq  -r ".Parameters[].Value"` \
+-var=db_master_password=`aws ssm get-parameters --name "/dev/db/password" --region=us-east-1 --with-decryption | jq  -r ".Parameters[].Value"` \
+--parallelism=30
+```
 ```
 
 ECRには手動でdocker imageをpushしておく
@@ -32,9 +39,6 @@ FROM httpd:2.4
 
 ALBのDNS名にブラウザからアクセスすると`It works!`が表示されることを確認
 
-## RDSのパスワード
+## RDSの機密情報
 system managerに手動で作成
 
-```
-$ aws ssm get-parameters --name "dev-db" --region=us-east-1 | jq  -r ".Parameters[].Value"
-```
