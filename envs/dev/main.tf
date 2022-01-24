@@ -116,6 +116,7 @@ module "ecs" {
   account_id                   = data.aws_caller_identity.current.account_id
   backend_ecr_repository_url   = module.ecr.backend_ecr_repository_url
   ecs_code_deploy_iam_role_arn = module.iam_role.ecs_code_deploy_iam_role_arn
+  ecs_task_iam_role_arn        = module.iam_role.ecs_task_iam_role_arn
   alb_tg_blue_arn              = module.alb.alb_tg_blue_arn
   alb_tg_green_arn             = module.alb.alb_tg_green_arn
   sg_container_id              = module.sg.sg_container_id
@@ -133,5 +134,5 @@ module "codedeploy" {
   backend_alb_tg_green_name            = module.alb.alb_tg_green_name
   backend_alb_listener_blue_arn        = module.alb.alb_listener_blue_arn
   backend_alb_listener_green_arn       = module.alb.alb_listener_green_arn
-
 }
+
