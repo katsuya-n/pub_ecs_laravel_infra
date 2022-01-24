@@ -35,7 +35,7 @@ ALBのDNS名にブラウザからアクセスすると`It works!`が表示され
 ## ECS Exec
 
 ```bash
-$ aws ecs execute-command --cluster ecs_laravel_pj_dev-ecs \                                                                                                               56.9s  月  1/24 23:00:50 2022
+$ aws ecs execute-command --cluster ecs_laravel_pj_dev-ecs \
   --task [タスクID] \
   --container app \
   --interactive \
