@@ -51,8 +51,7 @@ resource "aws_iam_role_policy" "ecs_exec_policy" {
           "ssmmessages:CreateControlChannel",
           "ssmmessages:CreateDataChannel",
           "ssmmessages:OpenControlChannel",
-          "ssmmessages:OpenDataChannel",
-          "ecs:ExecuteCommand"
+          "ssmmessages:OpenDataChannel"
         ]
         Effect   = "Allow"
         Resource = "*"
