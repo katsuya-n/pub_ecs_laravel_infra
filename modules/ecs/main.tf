@@ -39,14 +39,14 @@ resource "aws_ecs_task_definition" "backend" {
 }
 
 resource "aws_ecs_service" "backend" {
-  name            = "${var.name_prefix}-service"
-  cluster         = aws_ecs_cluster.backend.id
-  task_definition = aws_ecs_task_definition.backend.arn
-  desired_count   = 2
+  name                   = "${var.name_prefix}-service"
+  cluster                = aws_ecs_cluster.backend.id
+  task_definition        = aws_ecs_task_definition.backend.arn
+  desired_count          = 2
   launch_type            = "FARGATE"
   scheduling_strategy    = "REPLICA"
   enable_execute_command = true
-  force_new_deployment = true
+  force_new_deployment   = true
 
   network_configuration {
     security_groups = [var.sg_container_id]
