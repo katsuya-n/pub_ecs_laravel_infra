@@ -17,7 +17,7 @@ resource "aws_ecs_task_definition" "backend" {
   network_mode             = "awsvpc"
   cpu                      = 256
   memory                   = 512
-  task_role_arn            = "arn:aws:iam::${var.account_id}:role/ecsTaskExecutionRole"
+  task_role_arn            = var.ecs_task_iam_role_arn
   execution_role_arn       = "arn:aws:iam::${var.account_id}:role/ecsTaskExecutionRole"
 
   container_definitions = jsonencode([
@@ -39,12 +39,14 @@ resource "aws_ecs_task_definition" "backend" {
 }
 
 resource "aws_ecs_service" "backend" {
-  name                = "${var.name_prefix}-service"
-  cluster             = aws_ecs_cluster.backend.id
-  task_definition     = aws_ecs_task_definition.backend.arn
-  desired_count       = var.backend_desired_count
-  launch_type         = "FARGATE"
-  scheduling_strategy = "REPLICA"
+  name                   = "${var.name_prefix}-service"
+  cluster                = aws_ecs_cluster.backend.id
+  task_definition        = aws_ecs_task_definition.backend.arn
+  desired_count          = var.backend_desired_count
+  launch_type            = "FARGATE"
+  scheduling_strategy    = "REPLICA"
+  enable_execute_command = true
+  force_new_deployment   = true
 
   network_configuration {
     security_groups = [var.sg_container_id]

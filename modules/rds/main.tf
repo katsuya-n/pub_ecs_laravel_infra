@@ -21,7 +21,7 @@ resource "aws_rds_cluster" "db_cluster" {
   master_password         = var.db_master_password
   backup_retention_period = 1
   preferred_backup_window = "07:00-09:00"
-  vpc_security_group_ids = [var.db_vpc_security_group_id]
+  vpc_security_group_ids  = [var.db_vpc_security_group_id]
 }
 
 resource "aws_rds_cluster_instance" "instance1" {

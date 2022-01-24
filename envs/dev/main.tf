@@ -122,13 +122,13 @@ module "ecs" {
   account_id                   = data.aws_caller_identity.current.account_id
   backend_ecr_repository_url   = module.ecr.backend_ecr_repository_url
   ecs_code_deploy_iam_role_arn = module.iam_role.ecs_code_deploy_iam_role_arn
+  ecs_task_iam_role_arn        = module.iam_role.ecs_task_iam_role_arn
   alb_tg_blue_arn              = module.alb.alb_tg_blue_arn
   alb_tg_green_arn             = module.alb.alb_tg_green_arn
   sg_container_id              = module.sg.sg_container_id
   subnet_container_1a_id       = module.private_subnet.subnet_container_1a_id
   subnet_container_1b_id       = module.private_subnet.subnet_container_1b_id
-  backend_desired_count        = 0
-  //  desired_count = 2
+  backend_desired_count        = 2
 }
 
 module "codedeploy" {
@@ -143,15 +143,15 @@ module "codedeploy" {
   backend_alb_listener_green_arn       = module.alb.alb_listener_green_arn
 }
 
-module "rds" {
-  source                = "../../modules/rds"
-  name_prefix           = local.name_prefix
-  subnet_db_1a_id       = module.private_subnet.subnet_db_1a_id
-  subnet_db_1b_id       = module.private_subnet.subnet_db_1b_id
-  env                   = local.env
-  db_availability_zones = [local.az_1a, local.az_1b]
-  database_name         = var.database_name
-  db_master_username    = var.db_master_username
-  db_master_password    = var.db_master_password
-  db_vpc_security_group_id = module.sg.sg_rds_id
-}
+//module "rds" {
+//  source                   = "../../modules/rds"
+//  name_prefix              = local.name_prefix
+//  subnet_db_1a_id          = module.private_subnet.subnet_db_1a_id
+//  subnet_db_1b_id          = module.private_subnet.subnet_db_1b_id
+//  env                      = local.env
+//  db_availability_zones    = [local.az_1a, local.az_1b]
+//  database_name            = var.database_name
+//  db_master_username       = var.db_master_username
+//  db_master_password       = var.db_master_password
+//  db_vpc_security_group_id = module.sg.sg_rds_id
+//}

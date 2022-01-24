@@ -42,3 +42,13 @@ ALBのDNS名にブラウザからアクセスすると`It works!`が表示され
 ## RDSの機密情報
 system managerに手動で作成
 
+## ECS Exec
+
+```bash
+$ aws ecs execute-command --cluster ecs_laravel_pj_dev-ecs \
+  --task [タスクID] \
+  --container app \
+  --interactive \
+  --command "/bin/bash"
+  --region=us-east-1
+```
