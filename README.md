@@ -6,7 +6,7 @@
 
 ## 起動
 
-```
+```bash
 $ cd envs/dev/ 
 $ touch terraform.tfvars
 ```
@@ -19,7 +19,7 @@ allow_cidr_block = "XXX.XXX.XXX.XXX/32"
 ```
 
 
-```
+```bash
 $ terraform init
 $ terraform apply
 ```
@@ -31,3 +31,14 @@ FROM httpd:2.4
 ```
 
 ALBのDNS名にブラウザからアクセスすると`It works!`が表示されることを確認
+
+## ECS Exec
+
+```bash
+$ aws ecs execute-command --cluster ecs_laravel_pj_dev-ecs \
+  --task [タスクID] \
+  --container app \
+  --interactive \
+  --command "/bin/bash"
+  --region=us-east-1
+```
