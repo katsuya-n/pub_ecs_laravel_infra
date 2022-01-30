@@ -22,11 +22,12 @@ resource "aws_rds_cluster" "db_cluster" {
   backup_retention_period = 1
   preferred_backup_window = "07:00-09:00"
   vpc_security_group_ids  = [var.db_vpc_security_group_id]
+  deletion_protection     = true
+  skip_final_snapshot     = true
 }
 
 resource "aws_rds_cluster_instance" "instance" {
   count              = var.db_count
-  apply_immediately  = true
   cluster_identifier = aws_rds_cluster.db_cluster.id
   identifier         = "${var.env}-db-${count.index + 1}"
   instance_class     = "db.t3.small"
