@@ -24,21 +24,12 @@ resource "aws_rds_cluster" "db_cluster" {
   vpc_security_group_ids  = [var.db_vpc_security_group_id]
 }
 
-resource "aws_rds_cluster_instance" "instance1" {
+resource "aws_rds_cluster_instance" "instance" {
+  count              = var.db_count
   apply_immediately  = true
   cluster_identifier = aws_rds_cluster.db_cluster.id
-  identifier         = "${var.env}-db1"
+  identifier         = "${var.env}-db-${count.index + 1}"
   instance_class     = "db.t3.small"
   engine             = aws_rds_cluster.db_cluster.engine
   engine_version     = aws_rds_cluster.db_cluster.engine_version
 }
-
-// TODO: WIP
-//resource "aws_rds_cluster_instance" "instance2" {
-//  apply_immediately  = true
-//  cluster_identifier = aws_rds_cluster.db_cluster.id
-//  identifier         = "${var.env}-db2"
-//  instance_class     = "db.t3.small"
-//  engine             = aws_rds_cluster.db_cluster.engine
-//  engine_version     = aws_rds_cluster.db_cluster.engine_version
-//}

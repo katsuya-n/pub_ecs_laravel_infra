@@ -29,7 +29,6 @@ $ terraform apply \
 -var=db_master_password=`aws ssm get-parameters --name "/dev/db/password" --region=us-east-1 --with-decryption | jq  -r ".Parameters[].Value"` \
 --parallelism=30
 ```
-```
 
 ECRには手動でdocker imageをpushしておく
 
@@ -49,6 +48,6 @@ $ aws ecs execute-command --cluster ecs_laravel_pj_dev-ecs \
   --task [タスクID] \
   --container app \
   --interactive \
-  --command "/bin/bash"
+  --command "/bin/bash" \
   --region=us-east-1
 ```

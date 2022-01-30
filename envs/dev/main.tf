@@ -90,16 +90,16 @@ module "route_table" {
   igw_id                         = module.igw.igw_id
 }
 
-//module "vpc_endpoints" {
-//  source                    = "../../modules/network/vpc_endpoint"
-//  name_prefix               = local.name_prefix
-//  vpc_id                    = module.vpc.vpc_id
-//  sg_id                     = module.sg.sg_vpce_id
-//  subnet_1a_id              = module.private_subnet.subnet_container_1a_id
-//  subnet_1b_id              = module.private_subnet.subnet_container_1b_id
-//  route_table_private_1a_id = module.route_table.route_table_private_1a_id
-//  route_table_private_1b_id = module.route_table.route_table_private_1b_id
-//}
+module "vpc_endpoints" {
+  source                    = "../../modules/network/vpc_endpoint"
+  name_prefix               = local.name_prefix
+  vpc_id                    = module.vpc.vpc_id
+  sg_id                     = module.sg.sg_vpce_id
+  subnet_1a_id              = module.private_subnet.subnet_container_1a_id
+  subnet_1b_id              = module.private_subnet.subnet_container_1b_id
+  route_table_private_1a_id = module.route_table.route_table_private_1a_id
+  route_table_private_1b_id = module.route_table.route_table_private_1b_id
+}
 
 module "alb" {
   source       = "../../modules/alb"
@@ -143,15 +143,16 @@ module "codedeploy" {
   backend_alb_listener_green_arn       = module.alb.alb_listener_green_arn
 }
 
-//module "rds" {
-//  source                   = "../../modules/rds"
-//  name_prefix              = local.name_prefix
-//  subnet_db_1a_id          = module.private_subnet.subnet_db_1a_id
-//  subnet_db_1b_id          = module.private_subnet.subnet_db_1b_id
-//  env                      = local.env
-//  db_availability_zones    = [local.az_1a, local.az_1b]
-//  database_name            = var.database_name
-//  db_master_username       = var.db_master_username
-//  db_master_password       = var.db_master_password
-//  db_vpc_security_group_id = module.sg.sg_rds_id
-//}
+module "rds" {
+  source                   = "../../modules/rds"
+  name_prefix              = local.name_prefix
+  subnet_db_1a_id          = module.private_subnet.subnet_db_1a_id
+  subnet_db_1b_id          = module.private_subnet.subnet_db_1b_id
+  env                      = local.env
+  db_availability_zones    = [local.az_1a, local.az_1b]
+  database_name            = var.database_name
+  db_master_username       = var.db_master_username
+  db_master_password       = var.db_master_password
+  db_vpc_security_group_id = module.sg.sg_rds_id
+  db_count                 = 2
+}

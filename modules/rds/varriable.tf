@@ -7,3 +7,4 @@ variable "database_name" {}
 variable "db_master_username" {}
 variable "db_master_password" {}
 variable "db_vpc_security_group_id" {}
+variable "db_count" {}
